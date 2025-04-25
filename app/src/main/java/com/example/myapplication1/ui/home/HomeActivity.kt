@@ -11,6 +11,7 @@ import com.example.myapplication1.R
 import com.example.myapplication1.data.repository.TransactionStore
 import com.example.myapplication1.ui.add.AddTransactionActivity
 import com.example.myapplication1.ui.login.LoginActivity
+import com.example.myapplication1.ui.stats.StatsActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity() {
@@ -28,6 +29,10 @@ class HomeActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.addTransactionButton).setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
+            findViewById<Button>(R.id.statsButton).setOnClickListener {
+                startActivity(Intent(this, StatsActivity::class.java))
+            }
+
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.transactionRecyclerView)

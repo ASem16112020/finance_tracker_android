@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.add.AddTransactionActivity" />
-
+        <activity android:name=".ui.stats.StatsActivity" />
     </application>
 
 
