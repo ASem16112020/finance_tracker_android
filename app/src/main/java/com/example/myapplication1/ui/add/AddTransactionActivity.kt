@@ -1,5 +1,6 @@
 package com.example.myapplication1.ui.add
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AddTransactionActivity : AppCompatActivity() {
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
@@ -21,9 +23,30 @@ class AddTransactionActivity : AppCompatActivity() {
         val categorySpinner = findViewById<Spinner>(R.id.categorySpinner)
         val saveBtn = findViewById<Button>(R.id.saveButton)
 
+        // Категории
         val categories = listOf("Еда", "Транспорт", "Развлечения", "Зарплата")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
-        categorySpinner.adapter = adapter
+        val categoryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        categorySpinner.adapter = categoryAdapter
+
+        // Проверяем, редактируем ли мы существующую транзакцию
+        val transactionId = intent.getStringExtra("transaction_id")
+        val existingTransaction = TransactionStore.transactions.find { it.id == transactionId }
+
+        if (existingTransaction != null) {
+            amountEdit.setText(existingTransaction.amount.toString())
+            noteEdit.setText(existingTransaction.note)
+
+            if (existingTransaction.type == TransactionType.INCOME) {
+                typeRadioGroup.check(R.id.radioIncome)
+            } else {
+                typeRadioGroup.check(R.id.radioExpense)
+            }
+
+            val categoryIndex = categories.indexOf(existingTransaction.category)
+            if (categoryIndex >= 0) {
+                categorySpinner.setSelection(categoryIndex)
+            }
+        }
 
         saveBtn.setOnClickListener {
             val amount = amountEdit.text.toString().toDoubleOrNull()
@@ -38,18 +61,32 @@ class AddTransactionActivity : AppCompatActivity() {
                 Toast.makeText(this, "Введите корректную сумму", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-            val transaction = Transaction(
-                userId = userId,
-                amount = amount,
-                type = type,
-                category = category,
-                note = note
-            )
 
+            // Получаем валюту из настроек
+            val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+            val defaultCurrency = sharedPreferences.getString("default_currency", "₸") ?: "₸"
 
-            TransactionStore.transactions.add(transaction)
-            Toast.makeText(this, "Транзакция добавлена!", Toast.LENGTH_SHORT).show()
+            if (existingTransaction != null) {
+                existingTransaction.amount = amount
+                existingTransaction.type = type
+                existingTransaction.category = category
+                existingTransaction.note = note
+                existingTransaction.currency = defaultCurrency
+            } else {
+                val transaction = Transaction(
+                    userId = userId,
+                    amount = amount,
+                    type = type,
+                    category = category,
+                    note = note,
+                    currency = defaultCurrency
+                )
+                TransactionStore.transactions.add(transaction)
+            }
+
+            Toast.makeText(this, "Транзакция сохранена!", Toast.LENGTH_SHORT).show()
             finish()
         }
     }

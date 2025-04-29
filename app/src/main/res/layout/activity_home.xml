@@ -13,13 +13,6 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/logoutButton"
-        android:text="Выйти"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
-
-    <Button
         android:id="@+id/addTransactionButton"
         android:text="Добавить транзакцию"
         android:layout_width="match_parent"
@@ -31,6 +24,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp" />
+    <Button
+        android:id="@+id/settingsButton"
+        android:text="⚙️ Настройки"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/balanceText"
+        android:text="Баланс: 0 ₸"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="24dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transactionRecyclerView"
