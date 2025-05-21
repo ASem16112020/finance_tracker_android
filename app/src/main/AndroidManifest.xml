@@ -2,24 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:label="Finance Tracker"
         android:theme="@style/Theme.MyApplication1">
-
+        <activity
+            android:name=".ui.currency.CurrencyConverterActivity"
+            android:exported="false" />
         <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".ui.login.LoginActivity"
+        <activity
+            android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.add.AddTransactionActivity" />
         <activity android:name=".ui.stats.StatsActivity" />
         <activity android:name=".ui.settings.SettingsActivity" />
-
     </application>
-
 
 </manifest>

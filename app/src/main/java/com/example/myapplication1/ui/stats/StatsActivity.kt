@@ -1,5 +1,6 @@
 package com.example.myapplication1.ui.stats
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
@@ -11,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication1.R
 import com.example.myapplication1.data.model.TransactionType
 import com.example.myapplication1.data.repository.TransactionStore
+import com.example.myapplication1.ui.currency.CurrencyConverterActivity
+import com.example.myapplication1.ui.home.HomeActivity
+import com.example.myapplication1.ui.settings.SettingsActivity
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
@@ -20,12 +24,38 @@ import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.FileOutputStream
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class StatsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
+        val nav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        nav.selectedItemId = R.id.nav_stats
+        nav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                R.id.nav_stats -> true
+                R.id.nav_currency -> {
+                    startActivity(Intent(this, CurrencyConverterActivity::class.java))
+                    finish()
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
 
         val pieChart = findViewById<PieChart>(R.id.pieChart)
         val barChart = findViewById<BarChart>(R.id.barChart)

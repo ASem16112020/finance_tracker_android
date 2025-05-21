@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication1.R
 import com.example.myapplication1.data.repository.TransactionStore
 import com.example.myapplication1.ui.add.AddTransactionActivity
+import com.example.myapplication1.ui.currency.CurrencyConverterActivity
 import com.example.myapplication1.ui.login.LoginActivity
 import com.example.myapplication1.ui.settings.SettingsActivity
 import com.example.myapplication1.ui.stats.StatsActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity() {
@@ -23,16 +25,32 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val nav = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        nav.selectedItemId = R.id.nav_home
+        nav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_home -> true
+                R.id.nav_stats -> {
+                    startActivity(Intent(this, StatsActivity::class.java))
+                    true
+                }
+                R.id.nav_currency -> {
+                    startActivity(Intent(this, CurrencyConverterActivity::class.java))
+                    true
+                }
+                R.id.nav_settings -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
+
         findViewById<Button>(R.id.addTransactionButton).setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
 
-        findViewById<Button>(R.id.statsButton).setOnClickListener {
-            startActivity(Intent(this, StatsActivity::class.java))
-        }
-        findViewById<Button>(R.id.settingsButton).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        }
+
 
 
         val recyclerView = findViewById<RecyclerView>(R.id.transactionRecyclerView)

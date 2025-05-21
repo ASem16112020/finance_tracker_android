@@ -1,20 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Настройки"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_marginTop="80dp"
+        android:text="Изменение валюты"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Spinner
         android:id="@+id/currencySpinner"
+        android:layout_width="303dp"
+        android:layout_height="53dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="24dp"
+        android:scrollbarSize="50dp" />
+
+    <TextView
+        android:layout_marginTop="170dp"
+        android:text="Категории"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/categoriesList"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="310dp" />
+
+    <EditText
+        android:id="@+id/newCategoryEdit"
+        android:hint="Новая категория"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginTop="200dp" />
+
+    <Button
+        android:id="@+id/addCategoryButton"
+        android:text="Добавить категорию"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/logoutButton"
+        android:layout_marginTop="340dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/currencySpinner"
         android:text="🚪 Выйти из аккаунта" />
 
-</LinearLayout>
+    <!-- Нижнее меню -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>
